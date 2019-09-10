@@ -7,12 +7,13 @@
 package org.mozilla.fenix.ui.robots
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withResourceName
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -43,6 +44,15 @@ class ThreeDotMenuRobot {
 
     fun verifyShareTabButton() = assertShareTabButton()
     fun verifySaveCollection() = assertSaveCollectionButton()
+    fun clickSaveCollection() {
+        saveCollectionButton().click()
+        mDevice.wait(Until.findObject(By.text("Add new collection")), waitingTime)
+    }
+    fun clickAddNewCollection() {
+        addNewCollectionButton().click()
+        mDevice.wait(Until.findObject(By.res("name_collection_edittext")), waitingTime)
+    }
+    fun verifyCollectionNameTextField() = assertCollectionNameTextField()
     fun verifyFindInPageButton() = assertFindInPageButton()
     fun verifyShareScrim() = assertShareScrim()
     fun verifySendToDeviceTitle() = assertSendToDeviceTitle()
@@ -124,6 +134,15 @@ class ThreeDotMenuRobot {
             BrowserRobot().interact()
             return BrowserRobot.Transition()
         }
+
+        fun typeCollectionName(name: String, interact: BrowserRobot.() -> Unit): BrowserRobot.Transition {
+            collectionNameTextField().perform(ViewActions.replaceText(name),
+                ViewActions.pressImeActionButton()
+            )
+
+            BrowserRobot().interact()
+            return BrowserRobot.Transition()
+        }
     }
 }
 
@@ -167,8 +186,16 @@ private fun shareButton() = onView(allOf(withText("Share")))
 private fun assertShareButton() = shareButton()
     .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 
-private fun saveCollectionButton() = onView(allOf(withText("Save to collection")))
+private fun saveCollectionButton() = onView(allOf(withText("Save to Collection")))
 private fun assertSaveCollectionButton() = saveCollectionButton()
+    .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+
+private fun addNewCollectionButton() = onView(allOf(withText("Add new collection")))
+private fun assertaddNewCollectionButton() = addNewCollectionButton()
+    .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+
+private fun collectionNameTextField() = onView(allOf(withResourceName("name_collection_edittext")))
+private fun assertCollectionNameTextField() = collectionNameTextField()
     .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 
 private fun findInPageButton() = onView(allOf(withText("Find in page")))

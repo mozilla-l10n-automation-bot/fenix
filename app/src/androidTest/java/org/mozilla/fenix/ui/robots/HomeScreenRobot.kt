@@ -7,6 +7,7 @@
 package org.mozilla.fenix.ui.robots
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -15,6 +16,8 @@ import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.Until
+import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
@@ -22,6 +25,8 @@ import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.mozilla.fenix.R
+import org.mozilla.fenix.helpers.TestAssetHelper.waitingTime
+import org.mozilla.fenix.helpers.click
 
 /**
  * Implementation of Robot Pattern for the home screen menu.
@@ -75,12 +80,35 @@ class HomeScreenRobot {
 
     fun verifyExistingTabList() = assertExistingTabList()
 
-    private fun scrollToElementByText(text: String): UiScrollable {
+    // Collections element
+    fun clickCollectionThreeDotButton() {
+        collectionThreeDotButton().click()
+        mDevice.wait(Until.findObject(By.text("Delete collection")), waitingTime)
+    }
+    fun selectRenameCollection() {
+        onView(allOf(ViewMatchers.withText("Rename collection"))).click()
+        mDevice.wait(Until.findObject(By.res("name_collection_edittext")), waitingTime)
+    }
+    fun selectDeleteCollection() {
+        onView(allOf(ViewMatchers.withText("Delete collection"))).click()
+        mDevice.wait(Until.findObject(By.res("message")), waitingTime)
+    }
+    fun confirmDeleteCollection() {
+        onView(allOf(ViewMatchers.withText("DELETE"))).click()
+        mDevice.wait(Until.findObject(By.res("collections_header")), waitingTime)
+    }
+    fun typeCollectionName(name: String) {
+        collectionNameTextField().perform(
+            ViewActions.replaceText(name),
+            ViewActions.pressImeActionButton()
+        )
+        mDevice.wait(Until.findObject(By.text(name)), waitingTime)
+    }
+    fun scrollToElementByText(text: String): UiScrollable {
         val appView = UiScrollable(UiSelector().scrollable(true))
         appView.scrollTextIntoView(text)
         return appView
     }
-
     fun swipeUpToDismissFirstRun() {
         scrollToElementByText("Start browsing")
     }
@@ -321,3 +349,9 @@ private fun assertExistingTabList() =
         .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
 private fun tabsListThreeDotButton() = onView(allOf(ViewMatchers.withId(R.id.tabs_overflow_button)))
+
+private fun collectionThreeDotButton() = onView(allOf(ViewMatchers.withId(R.id.collection_overflow_button)))
+
+private fun collectionNameTextField() = onView(allOf(ViewMatchers.withResourceName("name_collection_edittext")))
+private fun assertCollectionNameTextField() = collectionNameTextField()
+    .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
