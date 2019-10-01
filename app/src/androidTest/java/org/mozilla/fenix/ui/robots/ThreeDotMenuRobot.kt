@@ -44,9 +44,9 @@ class ThreeDotMenuRobot {
 
     fun verifyShareTabButton() = assertShareTabButton()
     fun verifySaveCollection() = assertSaveCollectionButton()
-    fun clickSaveCollection() {
-        saveCollectionButton().click()
-        mDevice.wait(Until.findObject(By.text("Add new collection")), waitingTime)
+    fun clickBrowserViewSaveCollectionButton() {
+        browserViewSaveCollectionButton().click()
+        mDevice.wait(Until.findObject(By.res("name_collection_edittext")), waitingTime)
     }
     fun clickAddNewCollection() {
         addNewCollectionButton().click()
@@ -185,6 +185,8 @@ private fun assertShareTabButton() = shareTabButton()
 private fun shareButton() = onView(allOf(withText("Share")))
 private fun assertShareButton() = shareButton()
     .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+
+private fun browserViewSaveCollectionButton() = onView(allOf(withText("Save to Collection")))
 
 private fun saveCollectionButton() = onView(allOf(withText("Save to collection")))
 private fun assertSaveCollectionButton() = saveCollectionButton()

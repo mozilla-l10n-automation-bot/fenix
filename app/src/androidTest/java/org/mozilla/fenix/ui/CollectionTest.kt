@@ -76,7 +76,7 @@ class CollectionTest {
         navigationToolbar {
         }.openThreeDotMenu {
             // click save to collection menu item, type collection name
-            clickSaveCollection()
+            clickBrowserViewSaveCollectionButton()
             org.mozilla.fenix.ui.robots.mDevice.wait(
                 Until.findObject(By.text("testcollection_1")),
                 TestAssetHelper.waitingTime)
@@ -195,7 +195,7 @@ class CollectionTest {
         navigationToolbar {
         }.openThreeDotMenu {
             // click save to collection menu item, type collection name
-            clickSaveCollection()
+            clickBrowserViewSaveCollectionButton()
             if (!firstCollection)
                 clickAddNewCollection()
         }.typeCollectionName(collectionName) {
