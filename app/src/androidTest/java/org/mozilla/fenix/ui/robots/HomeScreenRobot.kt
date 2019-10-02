@@ -101,10 +101,10 @@ class HomeScreenRobot {
     }
     fun typeCollectionName(name: String) {
         assertCollectionNameTextField()
-        collectionNameTextField().perform(
-            ViewActions.replaceText(name),
-            ViewActions.pressImeActionButton()
-        )
+        Thread.sleep(5000)
+        collectionNameTextField().perform(ViewActions.replaceText(name))
+        Thread.sleep(5000)
+        collectionNameTextField().perform(ViewActions.pressImeActionButton())
         mDevice.wait(Until.findObject(By.text(name)), waitingTime)
     }
     fun scrollToElementByText(text: String): UiScrollable {
