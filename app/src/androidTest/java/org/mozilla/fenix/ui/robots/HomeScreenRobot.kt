@@ -101,9 +101,9 @@ class HomeScreenRobot {
     }
     fun typeCollectionName(name: String) {
         assertCollectionNameTextField()
-        Thread.sleep(5000)
-        collectionNameTextField().perform(ViewActions.replaceText(name))
-        Thread.sleep(5000)
+        collectionNameTextField().click()
+        collectionNameTextField().perform(ViewActions.clearText())
+        collectionNameTextField().perform(ViewActions.typeText(name))
         collectionNameTextField().perform(ViewActions.pressImeActionButton())
         mDevice.wait(Until.findObject(By.text(name)), waitingTime)
     }
