@@ -13,10 +13,7 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.Rule
-import org.junit.Before
-import org.junit.After
-import org.junit.Test
+import org.junit.*
 import org.mozilla.fenix.R
 import org.mozilla.fenix.helpers.AndroidAssetDispatcher
 import org.mozilla.fenix.helpers.HomeActivityTestRule
@@ -81,6 +78,8 @@ class CollectionTest {
                 Until.findObject(By.text("testcollection_1")),
                 TestAssetHelper.waitingTime)
             Espresso.onView(ViewMatchers.withText("testcollection_1")).click()
+            Assert.assertNotEquals(mDevice.wait(Until.gone(By.text("Tab saved!")), TestAssetHelper.waitingTime)
+                ,null)
             mDevice.pressBack() // go to main page
         }
 
@@ -105,7 +104,6 @@ class CollectionTest {
         homeScreen {
             verifyHomeScreen()
             Espresso.onView(ViewMatchers.withId(R.id.close_tab_button)).click()
-
             // On homeview, expand the collection and open the first saved page
             org.mozilla.fenix.ui.robots.mDevice.wait(
                 Until.findObject(By.text("Test_Page_2")),
@@ -132,6 +130,8 @@ class CollectionTest {
             clickCollectionThreeDotButton()
             selectRenameCollection()
             typeCollectionName("renamed_collection")
+            Assert.assertNotEquals(mDevice.wait(Until.gone(By.text("Collection renamed")), TestAssetHelper.waitingTime)
+                    ,null)
 
             // Verify the new name is displayed on homeview
             Espresso.onView(ViewMatchers.withText("renamed_collection"))
@@ -199,7 +199,8 @@ class CollectionTest {
             if (!firstCollection)
                 clickAddNewCollection()
         }.typeCollectionName(collectionName) {
-            waitForCollectionSavedPopup()
+            Assert.assertNotEquals(mDevice.wait(Until.gone(By.text("Tab saved!")), TestAssetHelper.waitingTime)
+                ,null)
             mDevice.pressBack() // go to main page
         }
         org.mozilla.fenix.ui.robots.mDevice.wait(

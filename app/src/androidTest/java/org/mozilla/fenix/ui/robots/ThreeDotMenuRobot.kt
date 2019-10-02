@@ -6,6 +6,7 @@
 
 package org.mozilla.fenix.ui.robots
 
+import android.view.KeyEvent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -19,6 +20,7 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import org.hamcrest.Matchers.allOf
+import org.junit.Assert
 import org.mozilla.fenix.R
 import org.mozilla.fenix.helpers.TestAssetHelper.waitingTime
 import org.mozilla.fenix.helpers.click
@@ -46,11 +48,9 @@ class ThreeDotMenuRobot {
     fun verifySaveCollection() = assertSaveCollectionButton()
     fun clickBrowserViewSaveCollectionButton() {
         browserViewSaveCollectionButton().click()
-        mDevice.wait(Until.findObject(By.res("name_collection_edittext")), waitingTime)
     }
     fun clickAddNewCollection() {
         addNewCollectionButton().click()
-        mDevice.wait(Until.findObject(By.res("name_collection_edittext")), waitingTime)
     }
     fun verifyCollectionNameTextField() = assertCollectionNameTextField()
     fun verifyFindInPageButton() = assertFindInPageButton()
@@ -136,10 +136,10 @@ class ThreeDotMenuRobot {
         }
 
         fun typeCollectionName(name: String, interact: BrowserRobot.() -> Unit): BrowserRobot.Transition {
+            mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext")), waitingTime)
             collectionNameTextField().perform(ViewActions.clearText())
-            collectionNameTextField().perform(ViewActions.click())
-            collectionNameTextField().perform(ViewActions.typeText(name),
-                ViewActions.pressImeActionButton())
+            collectionNameTextField().perform(ViewActions.typeText(name))
+            collectionNameTextField().perform(ViewActions.pressImeActionButton())
 
             BrowserRobot().interact()
             return BrowserRobot.Transition()
