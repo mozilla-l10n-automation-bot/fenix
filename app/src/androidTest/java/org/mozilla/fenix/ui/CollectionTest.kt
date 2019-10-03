@@ -130,8 +130,6 @@ class CollectionTest {
             clickCollectionThreeDotButton()
             selectRenameCollection()
             typeCollectionName("renamed_collection")
-            Assert.assertNotEquals(mDevice.wait(Until.gone(By.text("Collection renamed")), TestAssetHelper.waitingTime)
-                    ,null)
             mDevice.wait(Until.findObject(By.text("renamed_collection")),TestAssetHelper.waitingTime)
             // Verify the new name is displayed on homeview
             Espresso.onView(ViewMatchers.withText("renamed_collection"))

@@ -137,7 +137,10 @@ class ThreeDotMenuRobot {
             mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext")), waitingTime)
 
             collectionNameTextField().check(matches(hasFocus())).perform(clearText())
-            collectionNameTextField().perform(typeText(name), pressImeActionButton())
+            collectionNameTextField().perform(click())
+            collectionNameTextField().perform(typeText(name))
+            Thread.sleep(5000)
+            collectionNameTextField().perform(pressImeActionButton())
 
             BrowserRobot().interact()
             return BrowserRobot.Transition()

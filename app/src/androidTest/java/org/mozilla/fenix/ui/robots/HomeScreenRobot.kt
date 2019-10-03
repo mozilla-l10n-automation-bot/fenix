@@ -108,7 +108,10 @@ class HomeScreenRobot {
         Assert.assertNotEquals(mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext")), waitingTime)
                 , null)
         collectionNameTextField().check(matches(hasFocus())).perform(ViewActions.clearText())
-        collectionNameTextField().perform(ViewActions.typeText(name),ViewActions.pressImeActionButton())
+        collectionNameTextField().perform(click())
+        collectionNameTextField().perform(ViewActions.typeText(name))
+        Thread.sleep(5000)
+        collectionNameTextField().perform(ViewActions.pressImeActionButton())
     }
     fun scrollToElementByText(text: String): UiScrollable {
         val appView = UiScrollable(UiSelector().scrollable(true))
