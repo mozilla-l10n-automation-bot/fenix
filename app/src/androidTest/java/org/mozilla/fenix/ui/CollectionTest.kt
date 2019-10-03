@@ -79,8 +79,7 @@ class CollectionTest {
                 Until.findObject(By.text("testcollection_1")),
                 TestAssetHelper.waitingTime)
             Espresso.onView(ViewMatchers.withText("testcollection_1")).click()
-            Assert.assertNotEquals(mDevice.wait(Until.findObject(By.text("Tab saved!")), TestAssetHelper.waitingTime)
-                ,null)
+            Thread.sleep(5000)
             mDevice.pressBack() // go to main page
         }
 
@@ -202,14 +201,13 @@ class CollectionTest {
             clickBrowserViewSaveCollectionButton()
             if (!firstCollection)
                 clickAddNewCollection()
-        }.typeCollectionName(collectionName) {
-            Assert.assertNotEquals(mDevice.wait(Until.findObject(By.text("Tab saved!")), TestAssetHelper.waitingTime)
-                ,null)
-        }
+
+        }.typeCollectionName(collectionName){}
+
         Thread.sleep(5000)
         mDevice.pressBack() // go to main page
         org.mozilla.fenix.ui.robots.mDevice.wait(
             Until.findObject(By.text(collectionName)),
-            TestAssetHelper.waitingTime*2)
+            TestAssetHelper.waitingTime)
     }
 }
