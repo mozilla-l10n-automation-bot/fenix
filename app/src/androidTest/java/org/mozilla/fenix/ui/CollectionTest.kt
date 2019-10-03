@@ -205,6 +205,6 @@ class CollectionTest {
         }
         org.mozilla.fenix.ui.robots.mDevice.wait(
             Until.findObject(By.text("testcollection_1")),
-            TestAssetHelper.waitingTime)
+            TestAssetHelper.waitingTime*2)
     }
 }
