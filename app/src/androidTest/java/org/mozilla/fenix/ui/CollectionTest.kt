@@ -79,7 +79,7 @@ class CollectionTest {
                 Until.findObject(By.text("testcollection_1")),
                 TestAssetHelper.waitingTime)
             Espresso.onView(ViewMatchers.withText("testcollection_1")).click()
-            Assert.assertNotEquals(mDevice.wait(Until.gone(By.text("Tab saved!")), TestAssetHelper.waitingTime)
+            Assert.assertNotEquals(mDevice.wait(Until.findObject(By.text("Tab saved!")), TestAssetHelper.waitingTime)
                 ,null)
             mDevice.pressBack() // go to main page
         }
@@ -133,7 +133,7 @@ class CollectionTest {
             typeCollectionName("renamed_collection")
             Assert.assertNotEquals(mDevice.wait(Until.gone(By.text("Collection renamed")), TestAssetHelper.waitingTime)
                     ,null)
-
+            mDevice.wait(Until.findObject(By.text("renamed_collection")),TestAssetHelper.waitingTime)
             // Verify the new name is displayed on homeview
             Espresso.onView(ViewMatchers.withText("renamed_collection"))
                 .check(ViewAssertions
@@ -203,12 +203,13 @@ class CollectionTest {
             if (!firstCollection)
                 clickAddNewCollection()
         }.typeCollectionName(collectionName) {
-            Assert.assertNotEquals(mDevice.wait(Until.gone(By.text("Tab saved!")), TestAssetHelper.waitingTime)
+            Assert.assertNotEquals(mDevice.wait(Until.findObject(By.text("Tab saved!")), TestAssetHelper.waitingTime)
                 ,null)
-            mDevice.pressBack() // go to main page
         }
+        Thread.sleep(5000)
+        mDevice.pressBack() // go to main page
         org.mozilla.fenix.ui.robots.mDevice.wait(
-            Until.findObject(By.text("testcollection_1")),
+            Until.findObject(By.text(collectionName)),
             TestAssetHelper.waitingTime*2)
     }
 }
