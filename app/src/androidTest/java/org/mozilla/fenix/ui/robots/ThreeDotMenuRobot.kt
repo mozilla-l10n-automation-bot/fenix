@@ -9,12 +9,10 @@ package org.mozilla.fenix.ui.robots
 import android.view.KeyEvent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.espresso.matcher.ViewMatchers.withResourceName
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -137,9 +135,9 @@ class ThreeDotMenuRobot {
 
         fun typeCollectionName(name: String, interact: BrowserRobot.() -> Unit): BrowserRobot.Transition {
             mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext")), waitingTime)
-            collectionNameTextField().perform(ViewActions.clearText())
-            collectionNameTextField().perform(ViewActions.typeText(name))
-            collectionNameTextField().perform(ViewActions.pressImeActionButton())
+
+            collectionNameTextField().check(matches(hasFocus())).perform(clearText())
+            collectionNameTextField().perform(typeText(name), pressImeActionButton())
 
             BrowserRobot().interact()
             return BrowserRobot.Transition()

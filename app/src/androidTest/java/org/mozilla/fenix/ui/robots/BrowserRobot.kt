@@ -44,7 +44,7 @@ class BrowserRobot {
     */
     fun verifyPageContent(expectedText: String) {
         val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        mDevice.wait(Until.findObject(By.res(expectedText)), TestAssetHelper.waitingTime)
+        mDevice.wait(Until.findObject(By.text(expectedText)), TestAssetHelper.waitingTime)
     }
 
     fun verifyTabCounter(expectedText: String) {

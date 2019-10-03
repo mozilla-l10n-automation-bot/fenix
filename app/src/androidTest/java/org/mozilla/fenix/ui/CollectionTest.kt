@@ -6,6 +6,7 @@ package org.mozilla.fenix.ui
 
 import android.net.Uri
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
@@ -174,11 +175,14 @@ class CollectionTest {
         homeScreen {
             // swipe to bottom until the collections are shown
             verifyHomeScreen()
-            scrollToElementByText("testcollection_1")
-            Espresso.onView(ViewMatchers.withText("testcollection_2"))
-                .check(ViewAssertions
-                    .matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-            Espresso.onView(ViewMatchers.withText("testcollection_1"))
+            try {
+                Espresso.onView(ViewMatchers.withText("testcollection_1"))
+                    .check(ViewAssertions
+                        .matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+            } catch (e: NoMatchingViewException) {
+                scrollToElementByText("testcollection_1")
+            }
+             Espresso.onView(ViewMatchers.withText("testcollection_2"))
                 .check(ViewAssertions
                     .matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
         }
