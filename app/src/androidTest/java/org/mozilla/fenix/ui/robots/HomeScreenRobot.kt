@@ -6,7 +6,6 @@
 
 package org.mozilla.fenix.ui.robots
 
-import android.view.KeyEvent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -28,9 +27,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.junit.Assert
 import org.mozilla.fenix.R
-import org.mozilla.fenix.helpers.TestAssetHelper
 import org.mozilla.fenix.helpers.TestAssetHelper.waitingTime
-import org.mozilla.fenix.helpers.assertIsEnabled
 import org.mozilla.fenix.helpers.click
 
 /**
@@ -92,8 +89,7 @@ class HomeScreenRobot {
     }
     fun selectRenameCollection() {
         onView(allOf(ViewMatchers.withText("Rename collection"))).click()
-        mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext"))
-            , waitingTime)
+        mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext")), waitingTime)
     }
     fun selectDeleteCollection() {
         onView(allOf(ViewMatchers.withText("Delete collection"))).click()
@@ -105,12 +101,9 @@ class HomeScreenRobot {
             , waitingTime)
     }
     fun typeCollectionName(name: String) {
-        Assert.assertNotEquals(mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext")), waitingTime)
-                , null)
-        collectionNameTextField().check(matches(hasFocus())).perform(ViewActions.clearText())
-        collectionNameTextField().perform(click())
-        collectionNameTextField().perform(ViewActions.typeText(name))
-        Thread.sleep(5000)
+        mDevice.wait(Until.findObject(By.res("org.mozilla.fenix.debug:id/name_collection_edittext")), waitingTime)
+        collectionNameTextField().check(matches(hasFocus()))
+        collectionNameTextField().perform(ViewActions.replaceText(name))
         collectionNameTextField().perform(ViewActions.pressImeActionButton())
     }
     fun scrollToElementByText(text: String): UiScrollable {
@@ -361,4 +354,4 @@ private fun tabsListThreeDotButton() = onView(allOf(ViewMatchers.withId(R.id.tab
 
 private fun collectionThreeDotButton() = onView(allOf(ViewMatchers.withId(R.id.collection_overflow_button)))
 
-private fun collectionNameTextField() = onView(allOf(ViewMatchers.withResourceName("name_collection_edittext"),hasFocus()))
+private fun collectionNameTextField() = onView(allOf(ViewMatchers.withResourceName("name_collection_edittext"), hasFocus()))

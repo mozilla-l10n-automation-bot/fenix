@@ -14,7 +14,10 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.*
+import org.junit.Rule
+import org.junit.Before
+import org.junit.After
+import org.junit.Test
 import org.mozilla.fenix.R
 import org.mozilla.fenix.helpers.AndroidAssetDispatcher
 import org.mozilla.fenix.helpers.HomeActivityTestRule
@@ -130,7 +133,7 @@ class CollectionTest {
             clickCollectionThreeDotButton()
             selectRenameCollection()
             typeCollectionName("renamed_collection")
-            mDevice.wait(Until.findObject(By.text("renamed_collection")),TestAssetHelper.waitingTime)
+            mDevice.wait(Until.findObject(By.text("renamed_collection")), TestAssetHelper.waitingTime)
             // Verify the new name is displayed on homeview
             Espresso.onView(ViewMatchers.withText("renamed_collection"))
                 .check(ViewAssertions
@@ -179,9 +182,8 @@ class CollectionTest {
             } catch (e: NoMatchingViewException) {
                 scrollToElementByText("testcollection_1")
             }
-             Espresso.onView(ViewMatchers.withText("testcollection_2"))
-                .check(ViewAssertions
-                    .matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+             Espresso.onView(ViewMatchers.withText("testcollection_2")).check(ViewAssertions
+                 .matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
         }
     }
 
